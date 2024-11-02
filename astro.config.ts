@@ -5,7 +5,7 @@ import UnoCSS from 'unocss/astro'
 import vue from '@astrojs/vue'
 
 export default defineConfig({
-  site: 'https://localhost:1977',
+  site: 'https://peam.work',
   server: {
     port: 1977,
   },
