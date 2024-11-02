@@ -1,0 +1,83 @@
+<button id="theme-toggle" class="nav-link dark:i-ri-moon-line i-ri-sun-line"
+></button>
+
+<!-- :aria-label="isDark ? 'Dark Theme' : 'Light Theme'" -->
+<script>
+  function init() {
+    type Theme = 'light' | 'dark'
+    const getThemePreference = (): Theme | null => {
+      if (
+        typeof localStorage !== 'undefined' &&
+        localStorage.getItem('theme')
+      ) {
+        return localStorage.getItem('theme') as Theme
+      }
+      return window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light'
+    }
+    const isDark = getThemePreference() === 'dark'
+    document.documentElement.classList[isDark ? 'add' : 'remove']('dark')
+
+    if (typeof localStorage !== 'undefined') {
+      const observer = new MutationObserver(() => {
+        const isDark = document.documentElement.classList.contains('dark')
+        localStorage.setItem('theme', isDark ? 'dark' : 'light')
+      })
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class'],
+      })
+    }
+    const button = document.querySelector('#theme-toggle')
+    if (!button) return
+
+    button.ariaLabel =
+      getThemePreference() === 'dark' ? 'Dark Theme' : 'Light Theme'
+
+    button.addEventListener('click', (_event) => {
+      const event = _event as MouseEvent
+      let theme = getThemePreference() !== 'dark' ? 'dark' : 'light'
+      const x = event.clientX
+      const y = event.clientY
+
+      const isDark = theme === 'dark'
+      button.ariaLabel = isDark ? 'Dark Theme' : 'Light Theme'
+      const endRadius = Math.hypot(
+        Math.max(x, innerWidth - x),
+        Math.max(y, innerHeight - y),
+      )
+
+      if (!document.startViewTransition) {
+        document.documentElement.classList[isDark ? 'add' : 'remove']('dark')
+        return
+      }
+
+      const transition = document.startViewTransition(async () => {
+        document.documentElement.classList[isDark ? 'add' : 'remove']('dark')
+      })
+
+      transition.ready.then(() => {
+        const clipPath = [
+          `circle(0px at ${x}px ${y}px)`,
+          `circle(${endRadius}px at ${x}px ${y}px)`,
+        ]
+        document.documentElement.animate(
+          {
+            clipPath: isDark ? [...clipPath].reverse() : clipPath,
+          },
+          {
+            duration: 400,
+            easing: 'ease-in-out',
+            pseudoElement: isDark
+              ? '::view-transition-old(root)'
+              : '::view-transition-new(root)',
+          },
+        )
+      })
+    })
+  }
+
+  init()
+  document.addEventListener('astro:after-swap', init)
+</script>

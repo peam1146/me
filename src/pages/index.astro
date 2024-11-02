@@ -1,98 +1,148 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import siteConfig from '@/site-config'
+import { dateRange } from '@/utils/date'
+import { getCollection } from 'astro:content'
+
+const allwork = (await getCollection('work'))
+  .sort((a, b) => {
+    if (
+      typeof a.data.dateEnd !== 'string' &&
+      typeof b.data.dateEnd !== 'string'
+    ) {
+      return (
+        new Date(b.data.dateEnd).valueOf() - new Date(a.data.dateEnd).valueOf()
+      )
+    }
+
+    if (
+      typeof a.data.dateEnd === 'string' &&
+      typeof b.data.dateEnd !== 'string'
+    ) {
+      return -1
+    }
+
+    if (
+      typeof a.data.dateEnd !== 'string' &&
+      typeof b.data.dateEnd === 'string'
+    ) {
+      return 1
+    }
+
+    return (
+      new Date(b.data.dateStart).valueOf() -
+      new Date(a.data.dateStart).valueOf()
+    )
+  })
+  .slice(0, 3)
+
+const work = await Promise.all(
+  allwork.map(async (item) => {
+    const { Content } = await item.render()
+    return { ...item, Content }
+  }),
+)
 ---
 
-<BaseLayout description={siteConfig.description}>
+<BaseLayout
+  title="Supakarin Niansupornpun"
+  description={siteConfig.description}
+>
   <article class="prose">
-    <h1 class="text-title">Vitesse theme</h1>
-    <p>Vitesse theme for Astro, supports Vue and UnoCSS.</p>
-    <p>
-      A minimal, SEO-riendly portfolio and blog theme for Astro. It's inspired
-      by <a target="_blank" href="https://antfu.me">antfu.me</a>.
-    </p>
-    <p>
-      <img width="640" height="360" src="/hero.jpg" alt="Hero Image" />
-    </p>
-    <p>
-      Based on first principles thinking, and you can also see from the picture
-      <sup>👆</sup>, the goal of this theme is to
-      <b>make complex things as simple as possible</b>
-      . So, the core of this theme is the content, and the other elements are just
-      auxiliary.
-    </p>
-    <p>Here are the features you don't need to worry about:</p>
-    <ul>
-      <li>100 / 100 Lighthouse performance</li>
-      <li>Responsive</li>
-      <li>SEO-friendly</li>
-      <li>Light / Dark Theme</li>
-      <li>Markdown support</li>
-      <li>
-        <a target="_blank" href="https://mdxjs.com/">MDX</a>
-        (components in your markdown) support
-      </li>
-      <li>
-        <a target="_blank" href="https://vuejs.org/">Vue</a>
-        SFC component support
-      </li>
-      <li>Auto generated sitemap and RSS Feed</li>
-      <li>
-        <a target="_blank" href="https://vueuse.org/">VueUse</a>
-        &
-        <a target="_blank" href="https://lodash.com/">Lodash</a>
-        support
-      </li>
-    </ul>
-    <p>
-      By the way, this theme use the <a
-        target="_blank"
-        href="https://unocss.dev/">UnoCSS</a
-      > for style, it's fast.
-    </p>
-    <p>
-      Visit it
-      <a
-        target="_blank"
-        href="https://github.com/kevinwong865/astro-theme-vitesse"
-      >
-        on GitHub
-      </a>
-      to fork the repository, read the docs or one-click deploy on Netlify.
-    </p>
-    <p>
-      If you like Vitesse theme for Astro, please
-      <a target="_blank" href="https://github.com/kevinwong865">
-        click follow
-      </a>
-      for me.
-    </p>
-    <hr class="hr-line" />
-    <p>Find me on</p>
-    <p class="flex gap-x-4 gap-y-2 flex-wrap">
-      {
-        siteConfig.socialLinks.map((link) => (
+    <h1 class="text-title animate">Peam1146</h1>
+    <p class="animate">Supakarin Niansupornpun</p>
+    <div class="space-y-16">
+      <section class="animate">
+        <p>
+          I am an enthusiastic developer with a strong passion for driving
+          positive change. My keen interest in cutting-edge technology fuels my
+          desire to create solutions that cater to diverse demands. I constantly
+          challenge myself to craft increasingly impactful innovations, always
+          striving for personal and professional growth in the process.
+        </p>
+        <p>
+          I belive that giving back to the community is the best way to grow and
+          learn. I am passionate about contributing to the tech community, and
+          sharing my knowledge with others. I am committed to fostering a
+          collaborative and inclusive environment where everyone can thrive.
+        </p>
+
+        <!-- Qoute -->
+        <blockquote>
+          <p>
+            So if givers are most likely to land at the bottom of the success
+            ladder, who’s at the top—takers or matchers? Neither. When I took
+            another look at the data, I discovered a surprising pattern: It’s
+            the givers again. <br />
+            ― Adam M. Grant, Give and Take: Why Helping Others Drives Our Success
+          </p>
+        </blockquote>
+      </section>
+
+      <section class="animate space-y-6">
+        <div class="flex gap-y-2 items-center justify-between">
+          <h5 class="font-semibold text-black dark:text-white">
+            Work Experience
+          </h5>
+          <a href="/work" class="leading-tight"> See all work </a>
+        </div>
+        <ul class="flex flex-col space-y-4 p-0 list-none">
+          {
+            work.map((entry) => (
+              <li class="!pl-0 before:hidden">
+                <div class="text-sm opacity-75">
+                  {dateRange(entry.data.dateStart, entry.data.dateEnd)}
+                </div>
+                {!entry.data.link ? (
+                  <div class="font-semibold text-black dark:text-white">
+                    {entry.data.company}
+                  </div>
+                ) : (
+                  <a
+                    href={entry.data.link}
+                    target="_blank"
+                    class="font-semibold text-black dark:text-white"
+                  >
+                    {entry.data.company}
+                  </a>
+                )}
+                <div class="text-sm opacity-75">{entry.data.role}</div>
+                <article>
+                  <entry.Content />
+                </article>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="animate">
+        <p class="flex gap-x-4 gap-y-2 flex-wrap">
+          {
+            siteConfig.socialLinks.map((link) => (
+              <a
+                aria-label={link.text}
+                href={link.href}
+                target="_blank"
+                class="prose-link"
+              >
+                <i class:list={[link.icon]} />
+                {link.text}
+              </a>
+            ))
+          }
+        </p>
+        <p>
+          If you have any questions, please email me at
           <a
-            aria-label={link.text}
-            href={link.href}
-            target="_blank"
-            class="prose-link"
+            prose-link
+            aria-label={siteConfig.email}
+            href={`mailto:${siteConfig.email}`}
           >
-            <i class:list={[link.icon]} />
-            {link.text}
-          </a>
-        ))
-      }
-    </p>
-    <p>
-      If you have any questions, please email me at
-      <a
-        prose-link
-        aria-label={siteConfig.email}
-        href={`mailto:${siteConfig.email}`}
-      >
-        {siteConfig.email}
-      </a>.
-    </p>
+            {siteConfig.email}
+          </a>.
+        </p>
+      </section>
+    </div>
   </article>
 </BaseLayout>

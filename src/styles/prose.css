@@ -1,9 +1,10 @@
-.prose {
+/* .prose {
   --at-apply: text-base lh-1.75 mb-16 max-w-none sm: min-h-50vh min-h-38vh;
-}
+}*/
 .prose a {
   --at-apply: prose-link;
 }
+/*
 .prose strong {
   font-weight: 600;
 }
@@ -64,12 +65,15 @@
   margin-top: 3em;
   margin-bottom: 3em;
 }
+*/
+
 .prose blockquote {
   font-weight: 500;
   font-style: italic;
   color: inherit;
   border-left-width: 0.25rem;
   border-color: rgba(125, 125, 125, 0.3);
+  border-left-style: solid;
   quotes: '\201C' '\201D' '\2018' '\2019';
   margin-top: 1.6em;
   margin-bottom: 1.6em;
@@ -81,6 +85,8 @@
 .prose blockquote p:last-of-type::after {
   content: close-quote;
 }
+
+/*
 .prose h1 {
   font-weight: 800;
   font-size: 2.25em;
@@ -473,4 +479,4 @@
 }
 .prose-sm > :last-child {
   margin-bottom: 0;
-}
+} */

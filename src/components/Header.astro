@@ -1,0 +1,65 @@
+---
+import Link from './Link.astro'
+import ThemeToggle from './ThemeToggle.astro'
+import siteConfig from '@/site-config'
+---
+
+<header
+  id="header"
+  class="fixed top-0 left-0 right-0 z-50 py-5 w-screen bg-stone-100/75 dark:bg-stone-900/25 saturate-200 backdrop-blur-sm transform-gpu transition-transform"
+>
+  <div class="mx-auto max-w-3xl px-5 z-999 bg-transparent">
+    <div class="flex flex-wrap gap-y-2 justify-between">
+      <Link href="/">
+        <div class="font-semibold">Peam1146</div>
+      </Link>
+      <span class="flex gap-2 items-center">
+        <nav class="flex gap-1">
+          {
+            siteConfig.header.navLinks.map((link) => (
+              <>
+                <Link href={link.href}>{link.text}</Link>
+                <span class="last:hidden">{`/`}</span>
+              </>
+            ))
+          }
+        </nav>
+        <ThemeToggle />
+      </span>
+    </div>
+  </div>
+</header>
+
+<style scoped>
+  .header-hide {
+    transform: translateY(-100%);
+  }
+</style>
+
+<script lang="ts">
+  function init() {
+    const headerEl = document.querySelector('#header')
+    let scroll = 0
+    let oldScroll = 0
+    if (!headerEl) return
+
+    window.addEventListener('scroll', () => {
+      scroll = window.scrollY
+      if (scroll < 80) {
+        headerEl.classList.remove('header-hide')
+        return
+      }
+
+      if (scroll - oldScroll > 80) {
+        headerEl.classList.add('header-hide')
+        oldScroll = scroll
+      }
+
+      if (oldScroll - scroll > 80) {
+        headerEl.classList.remove('header-hide')
+        oldScroll = scroll
+      }
+    })
+  }
+  init()
+</script>

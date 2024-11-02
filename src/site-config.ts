@@ -1,64 +1,55 @@
 export const siteConfig = {
-  author: 'Kevin Wong',
-  title: 'Vitesse theme for Astro',
-  subtitle: 'Vitesse theme for Astro, supports Vue and UnoCSS.',
-  description: 'A Minimal, SEO-friendly portfolio and blog theme for Astro.',
+  author: 'Peam1146',
+  title: 'Peam1146',
+  subtitle: 'Supakarin Niansupornpun',
+  description: 'A passionate developer with a strong passion for driving positive change.',
   image: {
     src: '/hero.jpg',
     alt: 'Website Main Image',
   },
-  email: 'kevinwong865@gmail.com',
+  email: 'supakarin.sn@gmail.com',
   socialLinks: [
     {
       text: 'GitHub',
-      href: '',
+      href: 'https://github.com/peam1146',
       icon: 'i-simple-icons-github',
       header: 'i-ri-github-line',
     },
     {
       text: 'Twitter',
-      href: '',
+      href: 'https://x.com/sn1146',
       icon: 'i-simple-icons-x',
       header: 'i-ri-twitter-x-line',
     },
     {
       text: 'Linkedin',
-      href: '',
+      href: 'https://www.linkedin.com/in/supakarin/',
       icon: 'i-simple-icons-linkedin',
     },
     {
       text: 'Instagram',
-      href: '',
+      href: 'https://www.instagram.com/peam1146/',
       icon: 'i-simple-icons-instagram',
-    },
-    {
-      text: 'Youtube',
-      href: '',
-      icon: 'i-simple-icons-youtube',
     },
   ],
   header: {
-    logo: {
-      src: '/favicon.svg',
-      alt: 'Logo Image',
-    },
     navLinks: [
       {
-        text: 'Blog',
-        href: '/blog',
+        text: 'work',
+        href: '/work',
       },
-      {
-        text: 'Notes',
-        href: '/blog/notes',
-      },
-      {
-        text: 'Talks',
-        href: '/blog/talks',
-      },
-      {
-        text: 'Projects',
-        href: '/projects',
-      },
+      // {
+      //   text: 'Notes',
+      //   href: '/blog/notes',
+      // },
+      // {
+      //   text: 'Talks',
+      //   href: '/blog/talks',
+      // },
+      // {
+      //   text: 'Projects',
+      //   href: '/projects',
+      // },
     ],
   },
   page: {
@@ -80,20 +71,8 @@ export const siteConfig = {
   footer: {
     navLinks: [
       {
-        text: 'Posts Props',
-        href: '/posts-props',
-      },
-      {
-        text: 'Markdown Style',
-        href: '/md-style',
-      },
-      {
-        text: 'View on Astro',
-        href: 'https://astro.build/themes/details/vitesse-theme-for-astro/',
-      },
-      {
         text: 'GitHub Repository',
-        href: 'https://github.com/kevinwong865/astro-theme-vitesse',
+        href: 'https://github.com/peam1146/me',
       },
     ],
   },
